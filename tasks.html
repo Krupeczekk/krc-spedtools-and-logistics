@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://kit-pro.fontawesome.com/releases/v6.1.1/css/pro.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="images/kr_logo.png">
+    <title>Zadania</title>
+</head>
+
+<body>
+    <div class="app">
+        <nav>
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <div class="logo">
+                    <a href="index.html"><span class="mypage-title">KR Name</span></a>
+                </div>
+                <div class="menu-toggle-btn" id="menu-nav-btn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+
+            <ul class="navbar-menu"></ul>
+        </nav>
+        <div class="view">
+            <div class="spedcalc-selectmenu-wrapper">
+                <div class="calculator-menu-question">Wybierz kategorię zadania<span style="opacity: 0.5;"> (Aktualna kategoria: <strong id="calculator-calc-type">Brak</strong>)</span></div>
+                <div class="spedcalc-selectmenu">
+                    <div class="spedcalc-select-button">
+                        <span class="spedcalc-select-button-text">Wybierz opcje</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+
+                    <ul class="spedcalc-selectmenu-options" id="tasks-menu-options">
+                        <li class="spedcalc-selectmenu-option" id="packcalc">Formowanie ładunku</li>
+                        <li class="spedcalc-selectmenu-option" id="packcalc">Czas pracy kierowcy</li>
+                        <li class="spedcalc-selectmenu-option" id="packcalc">Formowanie ładunkus</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="tasks-randomtask-btn">Losuj zadanie</div>
+            <div class="task"></div>
+        </div>
+        <footer class="footer">
+            <div class="footer-title">Strona tworzona przez Krupeczekk</div>
+            <div class="footer-description"><span class="mypage-title">KR Name</span> | Wszelkie prawa zastrzeżone © <span class="mypage-year">2025</span></div>
+        </footer>
+    </div>
+
+    
+    <div class="calculator-calculator"></div>
+    <div class="notifications-container"></div>
+</body>
+<script src="app.js"></script>
+<script src="scripts/script.tasks.js"></script>
+<script src="configs/config.tasks.js"></script>
+<script src="calculator.js"></script>
+<script src="config.js"></script>
+</html>

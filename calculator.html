@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://kit-pro.fontawesome.com/releases/v6.1.1/css/pro.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="images/kr_logo.png">
+    <title>SpedCalc</title>
+</head>
+
+<body>
+    <div class="app">
+        <nav>
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <div class="logo">
+                    <a href="index.html"><span class="mypage-title">KR Name</span></a>
+                </div>
+                <div class="menu-toggle-btn" id="menu-nav-btn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+
+            <ul class="navbar-menu"></ul>
+        </nav>
+        <div class="view">
+            <div class="spedcalc-selectmenu-wrapper">
+                <div class="calculator-menu-question">Co chcesz liczyć? <span style="opacity: 0.5;">(Aktualnie wybrane:
+                        <strong id="calculator-calc-type">Brak</strong>)</span></div>
+                <div class="spedcalc-selectmenu">
+                    <div class="spedcalc-select-button">
+                        <span class="spedcalc-select-button-text">Wybierz opcje</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+
+                    <ul class="spedcalc-selectmenu-options">
+                        <li class="spedcalc-selectmenu-option" id="packcalc">Paczki</li>
+                        <li class="spedcalc-selectmenu-option" id="barellcalc">Beczki</li>
+                        <li class="spedcalc-selectmenu-option" id="pipecalc">Rury</li>
+                        <li class="spedcalc-selectmenu-option" id="drivertimecalc">Czas pracy kierowcy</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="caluclator-information">SpedCalc uwzględnia wymiary w milimetrach [mm], wagę w kilogramach [kg]</div>
+
+            <!--paczki-->
+
+            <div class="calculator-container" id="packscalc" style="display: none;">
+                <div class="calculator-wrapper">
+                    <div class="input-title">
+                        <i class="fa-regular fa-swatchbook"></i>
+                        <span>Wymiary Przestrzeni ładunkowej [mm]</span>
+                    </div>
+                    <select name="" id="packs-loadplace-select"></select>
+                    <div class="line"></div>
+                    <div class="inputs">
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Długość</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="packs-pjl-length">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Szerokość</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="packs-pjl-width">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Wysokość</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="packs-pjl-height">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Maksymalne obciążenie [kg]</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="packs-pjl-max-weight">
+                        </div>
+                    </div>
+                </div>
+                <div class="calculator-wrapper">
+                    <div class="input-title" style="flex-direction: column; align-items: start; width: 100%; gap: 2vh;">
+                        <div style="display: flex; align-items: center; gap: 2vh;">
+                            <i class="fa-regular fa-pallet-boxes"></i>
+                            <span>Wymiary Palety [mm]</span>
+                        </div>
+
+                        <select name="" id="packs-pallet-select"></select>
+                    </div>
+                    <div class="line"></div>
+                    <div class="inputs">
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Długość</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="packs-palete-length">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Szerokość</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="packs-palete-width">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Wysokość</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="packs-palete-height">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Masa [kg]</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="packs-palete-weight">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Max. Ilość Warstw</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="packs-max-palete-layers">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Luz manipulacyjny</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="packs-palete-manipulation-clearance">
+                        </div>
+                    </div>
+                </div>
+                <div class="calculator-wrapper">
+                    <div class="input-title">
+                        <i class="fa-regular fa-box"></i>
+                        <span>Wymiary Paczki [mm]</span>
+                    </div>
+                    <div class="line"></div>
+                    <div class="inputs">
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Długość</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="packs-pack-length">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Szerokość</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="packs-pack-width">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Wysokość</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="packs-pack-height">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Masa [kg]</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="packs-pack-weight">
+                        </div>
+                    </div>
+                </div>
+
+                <table class="calculator-results-table">
+                    <thead>
+                        <tr>
+                            <th>Wyszczególnienie</th>
+                            <th>Wariant I</th>
+                            <th>Wariant II</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Ilość paczek w jednej warstwie na pjł</td>
+                            <td id="packs-results-layer-packages-1">Brak</td>
+                            <td id="packs-results-layer-packages-2">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Ilość warstw paczek na palecie</td>
+                            <td id="packs-results-layers-on-pallet-1">Brak</td>
+                            <td id="packs-results-layers-on-pallet-2">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Ilość wszystkich paczek na pjł</td>
+                            <td id="packs-results-total-packages-1">Brak</td>
+                            <td id="packs-results-total-packages-2">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Waga PJŁ (Bez palety)</td>
+                            <td id="packs-results-weight-no-pallet-1">Brak</td>
+                            <td id="packs-results-weight-no-pallet-2">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Waga jednej całej PJŁ</td>
+                            <td id="packs-results-total-weight-pallet-1">Brak</td>
+                            <td id="packs-results-total-weight-pallet-2">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Objętość jednej PJŁ [m³]</td>
+                            <td id="packs-results-pallet-volume-1">Brak</td>
+                            <td id="packs-results-pallet-volume-2">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Ilość palet w jednej warstwie na przestrzeni ładunkowej</td>
+                            <td id="packs-results-pallets-per-layer-cargo-1">Brak</td>
+                            <td id="packs-results-pallets-per-layer-cargo-2">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Ilość warstw palet na przestrzeni ładunkowej</td>
+                            <td id="packs-results-pallet-layers-cargo-1">Brak</td>
+                            <td id="packs-results-pallet-layers-cargo-2">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Całkowita ilość palet na przestrzeni ładunkowej</td>
+                            <td id="packs-results-total-pallets-cargo-1">Brak</td>
+                            <td id="packs-results-total-pallets-cargo-2">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Waga całego ładunku</td>
+                            <td id="packs-results-total-cargo-weight-1">Brak</td>
+                            <td id="packs-results-total-cargo-weight-2">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Objętość całego ładunku [m³]</td>
+                            <td id="packs-results-total-cargo-volume-1">Brak</td>
+                            <td id="packs-results-total-cargo-volume-2">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Współczynnik wypełnienia p. ład. [%]</td>
+                            <td id="packs-results-utilization-rate-1">Brak</td>
+                            <td id="packs-results-utilization-rate-2">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Całkowita ilość paczek</td>
+                            <td id="packs-results-total-packs-1">Brak</td>
+                            <td id="packs-results-total-packs-2">Brak</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="spedcalc-calc-button" id="calculate-packs">Policz</div>
+
+            </div>
+
+            <!------------------- czas pracy kierowcy ------------------->
+
+            <div class="calculator-container" id="driverstimecalc" style="display: none;">
+                <div class="calculator-drivertime-map-container" style="display: none;">
+                    <div id="map"></div>
+                    <div class="calculator-drivertime-map-controls-container" style="display: none;">
+                        <div class="calculator-drivertime-map-controls-wrapper">
+                            <div class="calculator-drivertime-map-controls">
+                                <div class="calculator-drivertime-map-control" id="map-map-zoom-in">
+                                    <i class="fa-regular fa-magnifying-glass-plus"></i>
+                                    <span>Przybliż</span>
+                                </div>
+                                <div class="calculator-drivertime-map-control" id="map-map-zoom-out">
+                                    <i class="fa-regular fa-magnifying-glass-minus"></i>
+                                    <span>Oddal</span>
+                                </div>
+                                <div class="calculator-drivertime-map-control" id="map-map-point-add">
+                                    <i class="fa-regular fa-location-plus"></i>
+                                    <span>Dodaj punkt</span>
+                                </div>
+                                <div class="calculator-drivertime-map-control" id="map-map-generate-route">
+                                    <i class="fa-regular fa-location-plus"></i>
+                                    <span>Wyznacz trasę</span>
+                                </div>
+                            </div>
+                            <div style="color: #fff; opacity: 0.5; font-size: 0.7rem; text-align: center;">Po dodaniu
+                                dwóch
+                                punktów odległość obliczy się automatycznie.</div>
+                        </div>
+                        <i class="fa-regular fa-eye-low-vision" id="map-controls-visibility"></i>
+                    </div>
+                </div>
+                <div class="calculator-toggle-map">Pokaż mapę</div>
+                <div class="calculator-wrapper">
+                    <div class="input-title">
+                        <i class="fa-regular fa-pen"></i>
+                        <span>Dane</span>
+                    </div>
+                    <div class="line"></div>
+                    <div class="inputs">
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Odległość [KM]</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="drivertime-distance">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Średnia prędkość [KM/H]</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="drivertime-speed">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Data rozpoczęcia</span>
+                            <div class="line"></div>
+                            <input type="datetime-local" id="drivertime-start-date" lang="pl">
+                        </div>
+                    </div>
+                </div>
+                <div class="calculator-wrapper" style="display: none;" id="drivertime-loadandunloading">
+                    <div class="input-title">
+                        <i class="fa-regular fa-truck-clock"></i>
+                        <span>Załadunek i rozładunek [Minuty]</span>
+                    </div>
+                    <div class="line"></div>
+                    <div class="inputs">
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Czas załadunku</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" max="10000" id="drivertime-loadtime">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Czas rozładunku</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" max="10000" id="drivertime-unloadtime">
+                        </div>
+                    </div>
+                </div>
+                <div class="calculator-wrapper">
+                    <div class="input-title">
+                        <i class="fa-regular fa-user"></i>
+                        <span>Czynności kierowcy</span>
+                    </div>
+                    <div class="line"></div>
+                    <div class="inputs">
+                        <div class="checkbox-wrap">
+                            <input type="checkbox" id="drivertime-is-longdrive">
+                            <span>Wydłużony czas jazdy</span>
+                        </div>
+                        <div class="checkbox-wrap">
+                            <input type="checkbox" id="drivertime-is-shortsleep">
+                            <span>Skrócony czas odpoczynku</span>
+                        </div>
+                        <div class="checkbox-wrap">
+                            <input type="checkbox" id="drivertime-is-loading-and-unloading">
+                            <span>Uczestniczy w załadunku i rozładunku</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="drivertime-results">
+                    <table class="drivetimerTable">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Od-Do</th>
+                                <th>Czynność</th>
+                                <th>Przejechane</th>
+                                <th>Pozostało</th>
+                                <th>Czas</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="spedcalc-calc-button" id="calculate-drivertime">Policz</div>
+            </div>
+
+            <!--beczki-->
+
+            <div class="calculator-container" id="barellscalc" style="display: none;">
+                <div class="calculator-wrapper">
+                    <div class="input-title">
+                        <i class="fa-regular fa-swatchbook"></i>
+                        <span>Wymiary Przestrzeni ładunkowej [mm]</span>
+                    </div>
+                    <select name="" id="barells-loadplace-select"></select>
+                    <div class="line"></div>
+                    <div class="inputs">
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Długość</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="barells-pjl-length">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Szerokość</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="barells-pjl-width">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Wysokość</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="barells-pjl-height">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Maksymalne obciążenie [kg]</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="barells-pjl-max-weight">
+                        </div>
+                    </div>
+                </div>
+                <div class="calculator-wrapper">
+                    <div class="input-title" style="flex-direction: column; align-items: start; gap: 2vh;">
+                        <div style="display: flex; align-items: center; gap: 2vh;">
+                            <i class="fa-regular fa-pallet-boxes"></i>
+                            <span>Wymiary Palety [mm]</span>
+                        </div>
+                    </div>
+                    <select name="" id="barells-pallet-select"></select>
+                    <div class="line"></div>
+                    <div class="inputs">
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Długość</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="barells-palete-length">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Szerokość</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="barells-palete-width">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Wysokość</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="barells-palete-height">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Masa [kg]</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="barells-palete-weight">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Maksymalna ilość Warstw</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="barells-max-palete-layers">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Luz manipulacyjny</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="barells-palete-manipulation-clearance">
+                        </div>
+                    </div>
+                </div>
+                <div class="calculator-wrapper">
+                    <div class="input-title">
+                        <i class="fa-regular fa-line-height"></i>
+                        <span>Wymiary Beczki [mm]</span>
+                    </div>
+                    <div class="line"></div>
+                    <div class="inputs">
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Średnica</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="barells-barell-diametr">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Wysokość</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="barells-barell-height">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Masa [kg]</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="barells-barell-weight">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Średnica zabezpieczeń</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="barells-barell-safety-diametr">
+                        </div>
+                    </div>
+                </div>
+                <table class="calculator-results-table">
+                    <thead>
+                        <tr>
+                            <th>Wyszczególnienie</th>
+                            <th>Wynik</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Ilość beczek w jednej warstwie na pjł</td>
+                            <td id="barells-results-layer-packages-1">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Ilość warstw beczek na palecie</td>
+                            <td id="barells-results-layers-on-palete">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Ilość wszystkich beczek na pjł</td>
+                            <td id="barells-results-total-on-palete">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Waga PJŁ (Bez palety)</td>
+                            <td id="barells-results-pjl-weight-nopalete">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Waga jednej całej PJŁ</td>
+                            <td id="barells-results-pjl-weight-total">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Objętość jednej PJŁ [m³]</td>
+                            <td id="barells-results-pjl-volume">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Ilość palet w jednej warstwie na przestrzeni ładunkowej</td>
+                            <td id="barells-results-paletes-in-layer">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Ilość warstw palet na przestrzeni ładunkowej</td>
+                            <td id="barells-results-paletes-layers">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Całkowita ilość palet na przestrzeni ładunkowej</td>
+                            <td id="barells-results-paletes-total">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Waga całego ładunku</td>
+                            <td id="barells-results-load-weight">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Objętość całego ładunku [m³]</td>
+                            <td id="barells-results-load-volume">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Współczynnik wypełnienia p. ład. [%]</td>
+                            <td id="barells-results-load-fill">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Całkowita ilość beczek</td>
+                            <td id="barells-results-total-barells">Brak</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+                <div class="spedcalc-calc-button" id="policz-beczki">Policz</div>
+            </div>
+
+            <!--rury-->
+
+            <div class="calculator-container" id="pipescalc" style="display: none;">
+                <div class="calculator-wrapper">
+                    <div class="input-title">
+                        <i class="fa-regular fa-swatchbook"></i>
+                        <span>Wymiary Przestrzeni ładunkowej [mm]</span>
+                    </div>
+                    <select name="" id="pipes-loadplace-select"></select>
+                    <div class="line"></div>
+                    <div class="inputs">
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Długość</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="pipes-pjl-length">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Szerokość</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="pipes-pjl-width">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Wysokość</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="pipes-pjl-height">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Maksymalne obciążenie [kg]</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="pipes-pjl-max-weight">
+                        </div>
+                    </div>
+                </div>
+                <div class="calculator-wrapper">
+                    <div class="input-title" style="flex-direction: column; align-items: start; gap: 2vh;">
+                        <div style="display: flex; align-items: center; gap: 2vh;">
+                            <i class="fa-regular fa-pallet-boxes"></i>
+                            <span>Wymiary Palety [mm]</span>
+                        </div>
+                        <select name="" id="pipes-pallet-select"></select>
+                    </div>
+                    <div class="line"></div>
+                    <div class="inputs">
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Długość</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="pipes-palete-length">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Szerokość</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="pipes-palete-width">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Wysokość</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="pipes-palete-height">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Masa [kg]</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="pipes-palete-weight">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Maksymalna ilość Warstw</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="pipes-max-palete-layers">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Luz manipulacyjny</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="pipes-palete-manipulation-clearance">
+                        </div>
+                    </div>
+                </div>
+                <div class="calculator-wrapper">
+                    <div class="input-title">
+                        <i class="fa-regular fa-pipe-section"></i>
+                        <span>Wymiary Rury [mm]</span>
+                    </div>
+                    <div class="line"></div>
+                    <div class="inputs">
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Średnia</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="pipes-pipe-diametr">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Wysokość</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="pipes-pipe-height">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Masa [kg]</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="pipes-pipe-weight">
+                        </div>
+                    </div>
+                </div>
+                <div class="calculator-wrapper">
+                    <div class="input-title">
+                        <i class="fa-regular fa-pipe-collar"></i>
+                        <span>Wymiary kołnierza rury [mm]</span>
+                    </div>
+                    <div class="line"></div>
+                    <div class="inputs">
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Promień</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="pipes-pipe-collar-diametr">
+                        </div>
+                        <div class="calculator-input-container">
+                            <span class="calculator-input-name">Długość</span>
+                            <div class="line"></div>
+                            <input type="number" min="0" id="pipes-pipe-collar-length">
+                        </div>
+                    </div>
+                </div>
+                <table class="calculator-results-table">
+                    <thead>
+                        <tr>
+                            <th>Wyszczególnienie</th>
+                            <th>Wynik</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Ilość rur na palecie</td>
+                            <td id="pipes-results-layer-packages">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Waga PJŁ (Bez palety)</td>
+                            <td id="pipes-results-weight-no-palette">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Waga jednej całej PJŁ</td>
+                            <td id="pipes-results-total-weight">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Objętość jednej PJŁ [m³]</td>
+                            <td id="pipes-results-volume-single">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Ilość palet w jednej warstwie na przestrzeni ładunkowej</td>
+                            <td id="pipes-results-paletes-per-layer">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Ilość warstw palet na przestrzeni ładunkowej</td>
+                            <td id="pipes-results-palete-layers">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Całkowita ilość palet na przestrzeni ładunkowej</td>
+                            <td id="pipes-results-total-paletes">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Waga całego ładunku</td>
+                            <td id="pipes-results-load-weight">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Objętość całego ładunku [m³]</td>
+                            <td id="pipes-results-load-volume">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Współczynnik wypełnienia p. ład. [%]</td>
+                            <td id="pipes-results-fill-percent">Brak</td>
+                        </tr>
+                        <tr>
+                            <td>Całkowita ilość rur</td>
+                            <td id="pipes-results-total-pipes">Brak</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="spedcalc-calc-button" id="policz-rury">Policz</div>
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="footer-title">Strona tworzona przez Krupeczekk</div>
+            <div class="footer-description"><span class="mypage-title">KR Name</span> | Wszelkie prawa zastrzeżone ©
+                <span class="mypage-year">2025</span>
+            </div>
+        </footer>
+    </div>
+
+    <div class="calculator-calculator"></div>
+    <div class="notifications-container"></div>
+</body>
+<script src="app.js"></script>
+<script src="scripts/script.spedcalc.js"></script>
+<script src="calculator.js"></script>
+<script src="config.js"></script>
+<script src="scripts/script.map.js"></script>
+<script src="configs/config.spedcalc.js"></script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+</html>

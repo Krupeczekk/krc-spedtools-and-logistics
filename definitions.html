@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://kit-pro.fontawesome.com/releases/v6.1.1/css/pro.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="images/kr_logo.png">
+    <title>Definicje</title>
+</head>
+
+<body>
+    <div class="app">
+        <nav>
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <div class="logo">
+                    <a href="index.html"><span class="mypage-title">KR Name</span></a>
+                </div>
+                <div class="menu-toggle-btn" id="menu-nav-btn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+
+            <ul class="navbar-menu"></ul>
+        </nav>
+        <div class="view">
+            <div class="search-container">
+                <div style="display: flex; width: 100%; align-items: center; justify-content: space-between;">
+                    <div class="search-container-title">Wyszukaj definicję</div>
+                    <div class="serach-clear">Wyczyść</div>
+                </div>
+                <div class="line"></div>
+                <div class="search-container-wrapper">
+                    <i class="fa-regular fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Tu pisz..." id="searchdefinition" class="search-input-value">
+                </div>
+            </div>
+            <div class="definitions-container"></div>
+        </div>
+        <footer class="footer">
+            <div class="footer-title">Strona tworzona przez Krupeczekk</div>
+            <div class="footer-description"><span class="mypage-title">KR Name</span> | Wszelkie prawa zastrzeżone ©
+                <span class="mypage-year">2025</span></div>
+        </footer>
+    </div>
+
+    <div class="calculator-calculator"></div>
+</body>
+<script src="app.js"></script>
+<script src="scripts/script.definitions.js"></script>
+<script src="configs/config.definitions.js"></script>
+<script src="config.js"></script>
+
+</html>
