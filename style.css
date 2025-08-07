@@ -1863,6 +1863,9 @@ nav a:hover {
         max-width: 40vh;
     }
 
+    .spedlog-item-description {
+        font-size: 0.6rem;
+    }
 }
 
 @media screen and (min-width: 600px) and (max-width: 1300px) {
@@ -1978,5 +1981,6 @@ nav a:hover {
         opacity: 0;
     }
 }
+
 
 
